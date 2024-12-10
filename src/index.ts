@@ -59,8 +59,8 @@ export class Wiz {
 			.withWorkdir("/scan")
 			.withEnvVariable("DOCKER_HOST", "tcp://docker:2375")
 		  .withServiceBinding("docker", dag.docker().engine())
-			.withExec(["bash", "-c", "docker load -i /scan/image.tar | awk '{print $3}' > /scan/image-name"])
-			.withExec(["bash", "-c", "wizcli docker scan --image $(cat /scan/image-name)"])
+			.withExec(["bash", "-c", "docker load -i /scan/image.tar | awk '{print $3}' tee /scan/image-name"])
+			// .withExec(["bash", "-c", "wizcli docker scan --image $(cat /scan/image-name)"])
 			.stdout();
 	}
 }
