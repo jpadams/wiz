@@ -2,5 +2,12 @@
   "name": "wiz",
   "engineVersion": "v0.14.0",
   "sdk": "typescript",
+  "dependencies": [
+    {
+      "name": "docker",
+      "source": "github.com/shykes/daggerverse/docker",
+      "pin": "a3f377083ddc015de801b7b04d0543bc5647b3f8"
+    }
+  ],
   "source": "."
 }
