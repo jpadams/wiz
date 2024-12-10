@@ -60,7 +60,7 @@ export class Wiz {
 	 * Scan a Dagger Container with Wiz CLI
 	 */
 	@func()
-	async scanContainer(container: Container, name = "scanned-image", wizId: Secret, wizSecret: Secret): Promise<Container> {
+	async scanContainer(container: Container, name = "scanned-image", wizId: Secret, wizSecret: Secret): Promise<string> {
 		const tar = container.asTarball();
 		const wiz = await this.authd(wizId, wizSecret);
 		return wiz
@@ -69,6 +69,7 @@ export class Wiz {
 		  .withServiceBinding("docker", dag.container().from("docker:dind").asService())
 			.withEnvVariable("DOCKER_HOST", "tcp://docker:2375")
 			.withExec(["bash", "-c", `docker load -t ${name} -i /scan/${name}.tar`])
-			.withExec(["bash", "-c", `wizcli docker scan --image ${name}`]);
+			.withExec(["bash", "-c", `wizcli docker scan --image ${name}`])
+			.stdout();
 	}
 }
