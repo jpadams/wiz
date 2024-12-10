@@ -51,7 +51,8 @@ export class Wiz {
 	 * Scan a Dagger Container with Wiz CLI
 	 */
 	@func()
-	async scanContainer(container: Container, name = "scanned-image", wizId: Secret, wizSecret: Secret): Promise<string> {
+	async scanContainer(container: Container, wizId: Secret, wizSecret: Secret): Promise<string> {
+		const name = "scanned-image";
 		const tar = container.asTarball();
 		const wiz = await this.authd(wizId, wizSecret);
 		return wiz
