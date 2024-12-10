@@ -43,7 +43,7 @@ export class Wiz {
 		const path = "/scan";
 		return wiz
 		  .withDirectory(path, dir)
-			.withExec(["wizcli", "dir", "scan", path]);
+			.withExec(["wizcli", "dir", "scan", "--path", path]);
 	}
 
 	/**
