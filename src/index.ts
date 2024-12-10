@@ -51,7 +51,8 @@ export class Wiz {
 	 * Scan a Dagger Container with Wiz CLI
 	 */
 	@func()
-	async scanContainer(container: Container, imageName = "scanned-image", wizId: Secret, wizSecret: Secret): Promise<string> {
+	async scanContainer(container: Container, wizId: Secret, wizSecret: Secret): Promise<string> {
+		const img = "scanned-image";
 		const tar = container.asTarball();
 		const wiz = await this.authd(wizId, wizSecret);
 		return wiz
@@ -60,8 +61,8 @@ export class Wiz {
 			.withEnvVariable("DOCKER_HOST", "tcp://docker:2375")
 		  .withServiceBinding("docker", dag.docker().engine())
 			.withExec(["bash", "-c", "docker load -i /scan/image.tar | awk '{print $4}' > /scan/image-name"])
-			.withExec(["bash", "-c", `docker tag $(cat /scan/image-name) ${imageName}`])
-			.withExec(["bash", "-c", `wizcli docker scan --image ${imageName}`])
+			.withExec(["bash", "-c", `docker tag $(cat /scan/image-name) ${img}`])
+			.withExec(["bash", "-c", `wizcli docker scan --image ${img}`])
 			.stdout();
 	}
 }
