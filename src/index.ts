@@ -48,15 +48,6 @@ export class Wiz {
 	}
 
 	/**
-	 * Scan a container image in a registry with Wiz CLI
-	 */
-	@func()
-	async scanImage(image: string, wizId: Secret, wizSecret: Secret): Promise<string> {
-		const wiz = await this.authd(wizId, wizSecret);
-		return wiz.withExec(["wizcli", "docker", "scan", "--image", image]).stdout();
-	}
-
-	/**
 	 * Scan a Dagger Container with Wiz CLI
 	 */
 	@func()
