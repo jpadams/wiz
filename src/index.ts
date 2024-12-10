@@ -52,16 +52,15 @@ export class Wiz {
 	 */
 	@func()
 	async scanContainer(container: Container, wizId: Secret, wizSecret: Secret): Promise<string> {
-		const name = "scanned-image";
 		const tar = container.asTarball();
 		const wiz = await this.authd(wizId, wizSecret);
 		return wiz
-			.withFile(`/scan/${name}.tar`, tar)
+			.withFile(`/scan/image.tar`, tar)
 			.withWorkdir("/scan")
 		  .withServiceBinding("docker", dag.container().from("docker:dind").asService())
 			.withEnvVariable("DOCKER_HOST", "tcp://docker:2375")
-			.withExec(["bash", "-c", `docker load -t ${name} -i /scan/${name}.tar`])
-			.withExec(["bash", "-c", `wizcli docker scan --image ${name}`])
+			.withExec(["bash", "-c", "docker load -i /scan/image.tar | awk '{print $3}' > /scan/image-name"])
+			.withExec(["bash", "-c", "wizcli docker scan --image $(cat /scan/image-name)"])
 			.stdout();
 	}
 }
