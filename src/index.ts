@@ -38,12 +38,13 @@ export class Wiz {
 	 * Scan a directory with Wiz CLI 
 	 */
 	@func()
-	async scanDirectory(dir: Directory, wizId: Secret, wizSecret: Secret): Promise<Container> {
+	async scanDirectory(dir: Directory, wizId: Secret, wizSecret: Secret): Promise<string> {
 		const wiz = await this.authd(wizId, wizSecret);
 		const path = "/scan";
 		return wiz
 		  .withDirectory(path, dir)
-			.withExec(["wizcli", "dir", "scan", "--path", path]);
+			.withExec(["wizcli", "dir", "scan", "--path", path])
+			.stdout();
 	}
 
 	/**
