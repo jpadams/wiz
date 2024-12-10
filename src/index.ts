@@ -31,7 +31,7 @@ export class Wiz {
 		return base
 		  .withSecretVariable("WIZ_ID", wizId)
 			.withSecretVariable("WIZ_SECRET", wizSecret)
-		  .withExec(["wizcli", "auth", "--id", "$WIZ_ID", "--secret", "$WIZ_SECRET"]);
+		  .withExec(["bash", "-c", "wizcli auth --id $WIZ_ID --secret $WIZ_SECRET"]);
 	}
 
 	/**
